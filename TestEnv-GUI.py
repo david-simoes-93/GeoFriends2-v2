@@ -27,7 +27,7 @@ for trial_number in range(3):
     environment.render()
     print("Obstacles", [str(obs) for obs in additional_information["obstacles"]])
     print(observation[0])       # Rectangle's internal state, Circle's external state, rewards
-    #print(observation[1])       # Circle's internal state, Rectangle's external state, rewards
+    print(observation[1])       # Circle's internal state, Rectangle's external state, rewards
 
     while True:
         action = environment.action_space.sample()  # take a random action

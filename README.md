@@ -20,4 +20,6 @@ Or this for a graphical global state observation (pixels):
 
 ## Description
 
-The major classes
+The major classes are the [Agent](https://github.com/bluemoon93/GeoFriends2-v2/blob/master/Players/Agent.py), [MapGenerator](https://github.com/bluemoon93/GeoFriends2-v2/blob/master/MapGenerators/MapGenerator.py), and [GeoFriends2](https://github.com/bluemoon93/GeoFriends2-v2/blob/master/Simulator/Geofriends2.py). 
+
+The Gym simulator is GeoFriends2, which you initialize with a list of Agents and a list of MapGenerators. To add new Agents, you need to re-implement the Agent class (there already are a Circle and a Rectangle agents). For new Maps, you re-implement the MapGenerator. There are a bunch of maps already implemented and associated images.
