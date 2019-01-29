@@ -13,24 +13,28 @@ class GeometryFriends2(gym.Env):
     # agent_collision - Whether agents are meant to collide with each other
     # screen_res - Resolution for rendering, use None and don't call render() to disable it
     # graphical_state - True if agents read a global pixel observation of the environment, instead of local continuous vectors
-    def __init__(self, agents, maps, agent_collision=False, screen_res=[640, 400], graphical_state=False):
+    def __init__(self, agents, maps, agent_collision=False, screen_res=[640, 400], graphical_state=None,
+                 graphical_state_res=[80, 50], repeated_actions=1):
         self.agents = agents
         self.maps = maps
         self.agent_collision = agent_collision and len(agents) > 1
         self.screen_res = screen_res
         self.graphical_state = graphical_state
+        self.graphical_state_res = graphical_state_res
 
         self.action_space = gym.spaces.Tuple(tuple([agent.action_space for agent in self.agents]))
 
         # Global info
         self.terminal = False
+        self.repeated_actions = repeated_actions
 
         # GUI
         self.metadata = {'render.modes': ['human']}
-        self.screen, self.gui_window = None, None
+        self.screen, self.gui_window, self.screen_resized = None, None, None
         if graphical_state:
             pygame.init()
             self.screen = pygame.surface.Surface((1280, 800))  # original GF size
+            self.screen_resized = pygame.surface.Surface(screen_res)  # original GF size
             pygame.display.set_caption("GeoFriends2")
 
     def prepare_frame(self):
@@ -82,9 +86,12 @@ class GeometryFriends2(gym.Env):
             agent.pos = list(self.map.starting_positions[i])
             agent.reset(self.map.obstacles)
 
+        if self.graphical_state:
+            self.prepare_frame()
+
         return self.compute_observations(), {"obstacles": self.map.obstacles}
 
-    def step(self, action):
+    def step_single(self, action):
         reward = 0
 
         for i, agent in enumerate(self.agents):
@@ -108,6 +115,16 @@ class GeometryFriends2(gym.Env):
                 self.map.rewards.remove(intersected_reward)
                 reward += 1
 
+        return reward
+
+    def step(self, action):
+        reward = self.step_single(action)
+
+        if self.repeated_actions>1:
+            action = [self.agents[i].repeated_movement_indexes[action[i]] for i in range(len(self.agents))]
+        for i in range(1, self.repeated_actions):
+            reward += self.step_single(action)
+
         if self.graphical_state:
             self.prepare_frame()
 
@@ -118,7 +135,8 @@ class GeometryFriends2(gym.Env):
 
     def compute_observations(self):
         if self.graphical_state:
-            return pygame.surfarray.array3d(self.screen)
+            self.screen_resized = pygame.transform.scale(self.screen, self.graphical_state_res)
+            return pygame.surfarray.array3d(self.screen_resized)
         else:
             observations = []
             for index in range(len(self.agents)):

@@ -19,6 +19,9 @@ class Rectangle(Agent):
         self.rect_w, self.rect_h = self.rect_max, self.rect_min
         self.rectangle_ground = None
 
+        # if movements are repeated, what should they become (like, you won't resize N times, resize once then NoOp)
+        self.repeated_movement_indexes = [0, 1, 3, 3]
+
     def step(self, action_rectangle):
         can_grow_side = self.rect_w - 2 < self.rect_max
         can_grow_up = self.rect_w - 2 > self.rect_min

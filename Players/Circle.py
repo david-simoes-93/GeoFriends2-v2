@@ -18,8 +18,11 @@ class Circle(Agent):
         self.circle_ground = None
         self.circle_radius = 40
 
-        #self.frameskip = frameskip
+        # self.frameskip = frameskip
         self.air_movement = air_movement
+
+        # if movements are repeated, what should they become (like, you won't jump N times, jump once then NoOp)
+        self.repeated_movement_indexes = [3, 1, 2, 3]
 
     def step(self, action_circle):
         self.circle_spin *= 0.99
