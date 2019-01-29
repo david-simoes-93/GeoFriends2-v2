@@ -118,7 +118,7 @@ class GeometryFriends2(gym.Env):
 
     def compute_observations(self):
         if self.graphical_state:
-            return pygame.surfarray.array2d(self.screen)
+            return pygame.surfarray.array3d(self.screen)
         else:
             observations = []
             for index in range(len(self.agents)):

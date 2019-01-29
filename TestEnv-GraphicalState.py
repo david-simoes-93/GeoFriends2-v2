@@ -24,10 +24,13 @@ environment = GeometryFriends2([agent_rectangle, agent_circle], all_maps,
 
 for trial_number in range(3):
     observation, additional_information = environment.reset()
+    #print(observation)
+    environment.render()
 
     while True:
         action = environment.action_space.sample()  # take a random action
         observation, reward, terminal, additional_information = environment.step(action)  # step
+        environment.render()
 
         if reward != 0:
             print("Got " + str(reward) + " points")
