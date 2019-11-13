@@ -1,6 +1,6 @@
 # GeoFriends2 v2
 
-An OpenAI Gym environment with complex puzzle maps, highly adequate for single- or multi-agent reinforcement learning approaches, based on [Geometry Friends](http://gaips.inesc-id.pt/geometryfriends/) and [GeoFriends2](https://github.com/bluemoon93/GeoFriends2).
+An OpenAI Gym environment with complex puzzle maps, highly adequate for single- or multi-agent reinforcement learning approaches, based on [Geometry Friends](http://gaips.inesc-id.pt/geometryfriends/) and [GeoFriends2](https://github.com/bluemoon93/GeoFriends2). Check out the original [paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8489372) in IJCNN18, titled "Guided Deep Reinforcement Learning in the GeoFriends2 Environment".
 
 ![Demo](https://raw.githubusercontent.com/bluemoon93/GeoFriends2-v2/master/MapGenerators/TwoHighTowers.png)
 
